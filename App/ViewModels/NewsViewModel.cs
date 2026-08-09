@@ -529,9 +529,10 @@ public class NewsViewModel : BaseViewModel
 
         // Get all the aricles from this date
         var articles = new ObservableRangeCollection<Article>([.. (await CurrentApp.DataFetcher
-                    .GetMainFeedUpdate(_lastCallDateTime)
-                    .ConfigureAwait(false)).Where(article =>
-                        (article.Blocked == null || article.Blocked == false) && article.Source.IsActive)]);
+                            .GetMainFeedUpdate(_lastCallDateTime)
+                            .ConfigureAwait(false))
+                            .Where(article =>
+                                (article.Blocked == null || article.Blocked == false) && article.Source.IsActive)]);
 
         if (articles.Count == 0)
             return;
