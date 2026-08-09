@@ -528,7 +528,26 @@ public class NewsViewModel : BaseViewModel
         _lastCallDateTime = _articles?.First().FullPublishDate.ToUniversalTime().ToString("dd-MM-yyy_HH:mm:ss");
 
         // Get all the aricles from this date
-        var articles = new ObservableRangeCollection<Article>((await CurrentApp.DataFetcher.GetMainFeedUpdate(_lastCallDateTime).ConfigureAwait(false)).Where(article => (article.Blocked == null || article.Blocked == false) && article.Source.IsActive));
+        List<Article> newArticles = [.. (await CurrentApp.DataFetcher
+                    .GetMainFeedUpdate(_lastCallDateTime)
+                    .ConfigureAwait(false))
+                    .Where(article =>
+                        (article.Blocked == null || article.Blocked == false) && article.Source.IsActive)];
+
+        if (newArticles is null)
+        {
+            // try again
+            newArticles = [.. (await CurrentApp.DataFetcher
+                    .GetMainFeedUpdate(_lastCallDateTime)
+                    .ConfigureAwait(false))
+                    .Where(article =>
+                        (article.Blocked == null || article.Blocked == false) && article.Source.IsActive)];
+
+            // If nothing changes we give up
+            if (newArticles is null) return;
+        }
+
+        var articles = new ObservableRangeCollection<Article>(newArticles);
 
         if (articles.Count == 0)
             return;
@@ -702,11 +721,11 @@ public class NewsViewModel : BaseViewModel
             if (isUpdate)
                 timeParam = _articles?.FirstOrDefault().FullPublishDate.ToUniversalTime().ToString("dd-MM-yyy_HH:mm:ss");
 
-            List<Article> collection = new();
+            List<Article> collection = [];
             try
             {
-                collection = (await CurrentApp.DataFetcher.GetFeedArticles(SearchText, timeParam, isUpdate)).Where(article => /*(article.Blocked == null || article.Blocked == false)*/ 
-                article.Source?.IsActive ?? false).ToList();
+                collection = [.. (await CurrentApp.DataFetcher.GetFeedArticles(SearchText, timeParam, isUpdate)).Where(article => /*(article.Blocked == null || article.Blocked == false)*/ 
+                article.Source?.IsActive ?? false)];
             
 
             }
