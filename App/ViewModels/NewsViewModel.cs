@@ -721,11 +721,11 @@ public class NewsViewModel : BaseViewModel
             if (isUpdate)
                 timeParam = _articles?.FirstOrDefault().FullPublishDate.ToUniversalTime().ToString("dd-MM-yyy_HH:mm:ss");
 
-            List<Article> collection = new();
+            List<Article> collection = [];
             try
             {
-                collection = (await CurrentApp.DataFetcher.GetFeedArticles(SearchText, timeParam, isUpdate)).Where(article => /*(article.Blocked == null || article.Blocked == false)*/ 
-                article.Source?.IsActive ?? false).ToList();
+                collection = [.. (await CurrentApp.DataFetcher.GetFeedArticles(SearchText, timeParam, isUpdate)).Where(article => /*(article.Blocked == null || article.Blocked == false)*/ 
+                article.Source?.IsActive ?? false)];
             
 
             }
