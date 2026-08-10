@@ -528,26 +528,11 @@ public class NewsViewModel : BaseViewModel
         _lastCallDateTime = _articles?.First().FullPublishDate.ToUniversalTime().ToString("dd-MM-yyy_HH:mm:ss");
 
         // Get all the aricles from this date
-        List<Article> newArticles = [.. (await CurrentApp.DataFetcher
-                    .GetMainFeedUpdate(_lastCallDateTime)
-                    .ConfigureAwait(false))
-                    .Where(article =>
-                        (article.Blocked == null || article.Blocked == false) && article.Source.IsActive)];
-
-        if (newArticles is null)
-        {
-            // try again
-            newArticles = [.. (await CurrentApp.DataFetcher
-                    .GetMainFeedUpdate(_lastCallDateTime)
-                    .ConfigureAwait(false))
-                    .Where(article =>
-                        (article.Blocked == null || article.Blocked == false) && article.Source.IsActive)];
-
-            // If nothing changes we give up
-            if (newArticles is null) return;
-        }
-
-        var articles = new ObservableRangeCollection<Article>(newArticles);
+        var articles = new ObservableRangeCollection<Article>([.. (await CurrentApp.DataFetcher
+                            .GetMainFeedUpdate(_lastCallDateTime)
+                            .ConfigureAwait(false))
+                            .Where(article =>
+                                (article.Blocked == null || article.Blocked == false) && article.Source.IsActive)]);
 
         if (articles.Count == 0)
             return;

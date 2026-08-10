@@ -328,7 +328,7 @@ public class Fetcher
                                                                parameters: new string[] { dateUpdate },
                                                                jsonBody: null,
                                                                cancellationToken: cts.Token,
-                                                               unSuccessCallback: e => _ = HandleHttpException(e)));
+                                                               unSuccessCallback: e => _ = HandleHttpException(e)))?? [];
         }
         catch (Exception ex)
         {
