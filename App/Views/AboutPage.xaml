@@ -170,28 +170,28 @@
 
                 </StackLayout>
 
-            <!-- Description --> 
-            <Label Text="Description"
+            <!-- Description -->
+            <Label Text="About Us"
                    Grid.Row="2"
                    Style="{StaticResource TitleStyle}" />
             <BoxView Grid.Row="3"
                      Style="{StaticResource SeparatorStyle}"/>
-            <Label Text="The purpose of GameSpur is to keep gamers 
-up-to-date on everything game-related, for free, 
-with no ads or any other type of annoyance. &#10; &#10;
+                <Label Text="We are a couple who built GameSpur to keep fellow gamers like us up to date on the latest gaming news and deals in one ad-free app.
 
-As the app is open-source, the app evolve using
-its community's skills, knowledges and opinions.  "
+GameSpur is our open-source passion project. We always welcome feedback and contributions from our community as we continue to grow. "
                    Grid.Row="4"
                    Style="{StaticResource ParagraphStyle}"/>
             
             <!-- Profit -->
-            <Label Text="How is it profitable?"
+                <Label Text="How We Make Money"
                    Grid.Row="5"
                    Style="{StaticResource TitleStyle}" />
             <BoxView Grid.Row="6"
                      Style="{StaticResource SeparatorStyle}"/>
-                <Label Text="It's not. &#x0a; We don't really have a business model per se. Our affiliate partners (see bellow) allows to pay for development and expenses, and we are grateful for that. &#x0a; It's a passion project first and foremost, we would love to make a living out of it one day, but as it stands it isn't realistic. "
+                <Label Text="GameSpur is completely ad-free, and we want to keep it that way.
+
+We partner with a handful of gaming retailers through affiliate programmes. We may earn a small commission when you purchase a game or bundle through My Deals at no extra cost to you.
+These commissions help us to maintain and improve our app while letting you enjoy a cool new game and pitch in to support us, which we really appreciate!"
                    Grid.Row="7"
                    Style="{StaticResource ParagraphStyle}"/>
             
