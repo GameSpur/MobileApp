@@ -110,8 +110,8 @@ Microsoft.Maui.Handlers.WebViewHandler.Mapper.AppendToMapping("DisableHWAccel", 
     /// </summary>
     public void OpenDropdownMenu()
     {
-        double height = 70;
-        double width = 180;
+        double height = 150;
+        double width = 200;
 
         // Animation
         void callbackH(double inputH) => dropdownMenu.HeightRequest = inputH;

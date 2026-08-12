@@ -9,4 +9,17 @@ public partial class SettingsPage : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
 	}
+    protected override void OnAppearing()
+    {
+
+        if (BindingContext is SettingsViewModel vm)
+        {
+            Task.Run(async () => 
+            {
+                await vm.InitialiseAsync();
+            }).ConfigureAwait(false);
+        }
+
+        base.OnAppearing();
+    }
 }

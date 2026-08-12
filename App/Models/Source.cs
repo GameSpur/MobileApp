@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace GamHubApp.Models;
 
-public class Source
+public class Source : SelectableModel
 {
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
@@ -25,8 +25,10 @@ public class Source
     public string Logo { get; set; }
     [JsonProperty("isActive")]
     public bool IsActive { get; set; }
+    [JsonIgnore]
     [OneToMany(CascadeOperations = CascadeOperation.All)]
     public Collection<Article> RelatedArticles { get; set; }
+
     public Source()
     {
     }

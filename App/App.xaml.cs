@@ -311,7 +311,7 @@ public partial class App : Application
         await Snackbar.Make(message,
             () =>
             {
-                Email.ComposeAsync(subject: "", body: "", to: new string[] { "support@gamhub.io" });
+                Email.ComposeAsync(subject: "", body: "", to: new string[] { "support@gamespur.games" });
             },
             actionButtonText: "contact support").Show();
     }

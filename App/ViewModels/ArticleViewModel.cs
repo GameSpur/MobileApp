@@ -49,6 +49,26 @@ public class ArticleViewModel : BaseViewModel
             }));
         }
     }
+
+    public Command ReportCommand
+    {
+        get
+        {
+            return new Command<string>((address) => _ = 
+                    Email.ComposeAsync(subject: $"Reporting an article from {_selectedArticle.Source?.Name}", body: $@"
+                        Article Identifier: {_selectedArticle.MongooseId}
+                        Title: {_selectedArticle.Title}
+                        Outlet: {_selectedArticle.Source?.Domain}
+                        Author: {_selectedArticle.Author}
+                        Publish Date/time: {_selectedArticle.FullPublishDate}
+                        Url: {_selectedArticle.Url}
+                        Reason: [it would be nice for you to let us know why you report it, but we will investigate eitherway]
+            ", 
+            to: new string[] { "support@gamespur.games" }));
+        }
+    }
+
+
     private string _ttsIcon;
 
     public string TtsIcon

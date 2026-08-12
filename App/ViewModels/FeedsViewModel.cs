@@ -233,7 +233,6 @@ public class FeedsViewModel : BaseViewModel
 
         _generalDB = generalDataBase;
 
-
         // Instantiate definitions 
         FeedTabs = new ObservableRangeCollection<TabButton>();
         _ = Task.Run(async () =>

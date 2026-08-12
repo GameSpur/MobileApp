@@ -24,10 +24,10 @@ class BadgeShellTabbarAppearanceTracker : ShellTabBarAppearanceTracker
         base.UpdateLayout(controller);
 
         if (_cartTabbarItem is null
-            && controller.TabBar.Items?.Length == 4)
+            && controller.TabBar.Items?.Length == 3)
         {
             // TODO: the index is hardcoded here, it would be nice to find a way to set this programatically or otherwise
-            const int dealsTabbarItemIndex = 3;
+            const int dealsTabbarItemIndex = 2;
             _cartTabbarItem = controller.TabBar.Items[dealsTabbarItemIndex];
             if (_cartTabbarItem is not null)
             {

@@ -5,7 +5,10 @@
              Title="Settings"
              BackgroundColor="{StaticResource BackgroundColor}"
              xmlns:vm="clr-namespace:GamHubApp.ViewModels"
-             x:DataType="vm:SettingsViewModel">
+             xmlns:models="clr-namespace:GamHubApp.Models"
+             xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="vm:SettingsViewModel"
+             x:Name="thy">
     <Shell.TitleView>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -28,6 +31,8 @@
         </Grid>
 
     </Shell.TitleView>
+    <ScrollView>
+        
     <VerticalStackLayout Margin="5"
                          Spacing="10">
         <Label 
@@ -111,7 +116,7 @@
                        TextColor="{StaticResource FontColor}"/>
                 <Switch Grid.Column="1"
                         OnColor="{StaticResource Primary}"
-                        ThumbColor="{StaticResource Primary}"
+                        ThumbColor="{StaticResource Light}"
                         HorizontalOptions="End"
                         VerticalOptions="Center"
                         WidthRequest="50"
@@ -138,7 +143,7 @@
                        Grid.Column="0"
                        TextColor="{StaticResource FontColor}"/>
                 <Switch OnColor="{StaticResource Primary}"
-                        ThumbColor="{StaticResource Primary}"
+                        ThumbColor="{StaticResource Light}"
                         HorizontalOptions="End"
                         VerticalOptions="Center"
                         WidthRequest="50"
@@ -157,5 +162,85 @@
 
             </Grid>
         </Border>
-    </VerticalStackLayout>
+        <Label Text="Publications"
+               FontFamily="P-Medium"
+               FontSize="15"
+               TextColor="{StaticResource FontColor}"
+               VerticalOptions="Center" 
+               HorizontalOptions="Start" />
+        <Border StrokeShape="RoundRectangle 20"
+                BackgroundColor="{DynamicResource LightDark}">
+            <StackLayout BindableLayout.ItemsSource="{Binding Outlets}">
+                 <BindableLayout.EmptyView>
+                        <ActivityIndicator Color="{StaticResource Primary}"
+                                            IsRunning="True"/>
+                    </BindableLayout.EmptyView>
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:Source">
+                            <Grid ColumnDefinitions="*,50"
+                          Padding="10,5"
+                                        x:Name="ItemRow"
+                              IsVisible="{Binding IsActive}">
+                                <Grid.Behaviors>
+
+                                    <mct:EventToCommandBehavior Command="{Binding BindingContext.AppearingCommand, 
+                                                                                      Source={x:Reference thy},
+                                                                                      x:DataType=ContentPage}" 
+                                                                    EventName="SizeChanged" />
+                                </Grid.Behaviors>
+                                <Border Grid.Column="0"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center"
+                                        StrokeShape="RoundRectangle 8"
+                                        HeightRequest="25"
+                                        Padding="4,0"
+                                        BackgroundColor="{Binding PrimaryColour, Mode=OneWay}">
+                                    <Grid>
+
+                                        <Label FontSize="13"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               Text="{Binding Name}"
+                                               FontFamily="P-Bold"
+                                               IsVisible="{Binding Logo, Converter={StaticResource NullOrEmptyStringConverter}}"
+                                               TextColor="{Binding SecondaryColour, Mode=OneWay}"
+   
+                                              />
+                                        <Image HorizontalOptions="Fill"
+                                               MaximumWidthRequest="90"
+                                               MaximumHeightRequest="25"
+                                               Source="{Binding Logo}"/>
+                                    </Grid>
+                                </Border>
+                                <Switch OnColor="{StaticResource Primary}"
+                                        ThumbColor="{StaticResource Light}"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Center"
+                                        WidthRequest="50"
+                                        Grid.Column="1"
+                                        IsToggled="{Binding IsSelected}"
+                                        Background="Transparent">
+                                    <Switch.Behaviors>
+                                        <mct:EventToCommandBehavior 
+                                            EventName="Toggled"
+                                            Command="{Binding BindingContext.SelectCommand, 
+                                                                Source={x:Reference thy},
+                                                                x:DataType=ContentPage}"
+                                            CommandParameter="{Binding BindingContext, Source={x:Reference ItemRow}}" />
+                                    </Switch.Behaviors>
+                                    <Switch.Triggers>
+                                            <DataTrigger TargetType="Switch"
+                                                     Binding="{Binding IsSelected}"
+                                                     Value="false">
+                                            <Setter Property="ThumbColor" Value="{StaticResource FontColor}" />
+                                        </DataTrigger>
+                                     </Switch.Triggers>
+                            </Switch>
+                        </Grid>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+        </Border>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

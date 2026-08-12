@@ -286,7 +286,7 @@
                        Style="{DynamicResource MenuIcon}"/>
 
                 <!-- label -->
-                <Label Text="Donate"
+                <Label Text="Tip Jar"
                        Style="{DynamicResource MenuLabel}"/>
             </Grid>
             
@@ -296,7 +296,7 @@
                   ColumnDefinitions="60,*">
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding MailTo}"
-                                          CommandParameter="support@gamhub.io"/>
+                                          CommandParameter="contact@gamespur.games"/>
                 </Grid.GestureRecognizers>
 
 
@@ -330,8 +330,8 @@
                        Style="{DynamicResource MenuLabel}"
                    />
             </Grid>
-            
-            <Label Text="© 2026 Brice Friha"
+
+            <Label Text="© 2026 GameSpur"
                    FontSize="12"
                    Grid.Row="3"
                    Margin="0,10,0,0"

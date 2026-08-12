@@ -356,7 +356,7 @@
                     Grid.RowSpan="2"
                     WidthRequest="50"
                     IsVisible="{Binding IsMenuOpen}">
-                <Grid RowDefinitions="*,1,*">
+                <Grid RowDefinitions="*,1,*,1,*">
                     <Grid Grid.Row="0">
                         <Grid.Behaviors>
                             <mct:TouchBehavior Command="{Binding Browse}"
@@ -390,6 +390,28 @@
                             <TapGestureRecognizer Tapped="MenuItem_Tapped"/>
                         </Grid.GestureRecognizers>
                         <Label Text="Share"
+                               TextColor="{StaticResource FontColor}"
+                               FontFamily="P-SemiBold"
+                               FontSize="18"
+                               HorizontalTextAlignment="Center"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                    <BoxView HeightRequest="1"
+                             Grid.Row="3"
+                             Margin="5,0"
+                             BackgroundColor="{StaticResource FontColor}"
+                             Opacity="0.1"/>
+                    <Grid Grid.Row="4">
+                        <Grid.Behaviors>
+                            <mct:TouchBehavior Command="{Binding ReportCommand}"
+                                               BindingContext="{Binding BindingContext, 
+                                                                         Source={x:Reference thy},
+                                                                         x:DataType=ContentPage}"/>
+                        </Grid.Behaviors>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="MenuItem_Tapped"/>
+                        </Grid.GestureRecognizers>
+                        <Label Text="Report"
                                TextColor="{StaticResource FontColor}"
                                FontFamily="P-SemiBold"
                                FontSize="18"

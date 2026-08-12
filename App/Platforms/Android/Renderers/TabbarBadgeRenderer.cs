@@ -35,7 +35,7 @@ class BadgeShellBottomNavViewAppearanceTracker : ShellBottomNavViewAppearanceTra
         if (badgeDrawable is null)
         {
             // TODO: the index is hardcoded here, it would be nice to find a way to set this programatically or otherwise
-            const int dealTabbarItemIndex = 3;
+            const int dealTabbarItemIndex = 2;
 
             badgeDrawable = bottomView.GetOrCreateBadge(dealTabbarItemIndex);
             UpdateBadge(0);

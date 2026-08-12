@@ -63,6 +63,8 @@ public class BackUpDataBase
     /// <returns>List of all the articles saved as backup</returns>
     public async Task<List<Article>> GetArticles ()
     {
+        if (database is null)
+            return null;
         return await database.Table<Article>().ToListAsync();
     }
 

@@ -63,6 +63,28 @@ public sealed class GeneralDataBase
     }
 
     /// <summary>
+    /// Get a specific source
+    /// </summary>
+    /// <param name="id">id of the source</param>
+    /// <returns>the source</returns>
+    public async Task<int> UpdateSourceById(Source source)
+    {
+
+        return await database.UpdateAsync(source);
+    }
+
+    /// <summary>
+    /// Get sources
+    /// </summary>
+    /// <returns>the source</returns>
+    public async Task<List<Source>> GetSources()
+    {
+        if (database is null)
+            await Init();
+        return await database.Table<Source>().ToListAsync();
+    }
+
+    /// <summary>
     /// Add a specific article to bookmarks
     /// </summary>
     /// <param name="article">the article we want to insert</param>
@@ -70,6 +92,11 @@ public sealed class GeneralDataBase
     public async Task<int> InsertArticleBookmark(Article article)
     {
         return await database.InsertOrReplaceAsync(article);
+    }
+
+    public async Task<int> InsertSources(Source newSource)
+    {
+        return await database.InsertAsync(newSource);
     }
 
     /// <summary>

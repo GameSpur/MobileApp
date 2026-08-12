@@ -149,7 +149,7 @@
                                             BindingContext="{Binding Path=BindingContext, 
                                                                      Source={x:Reference twitterBtn},
                                                                      x:DataType=Border}"
-                                            CommandParameter="gamhub_io"
+                                            CommandParameter="GameSpur_App"
                                             />
                         </Border.Behaviors>
                         <StackLayout Orientation="Horizontal"
@@ -170,28 +170,28 @@
 
                 </StackLayout>
 
-            <!-- Description --> 
-            <Label Text="Description"
+            <!-- Description -->
+            <Label Text="About Us"
                    Grid.Row="2"
                    Style="{StaticResource TitleStyle}" />
             <BoxView Grid.Row="3"
                      Style="{StaticResource SeparatorStyle}"/>
-            <Label Text="The purpose of GamHubApp is to keep gamers 
-up-to-date on everything game-related, for free, 
-with no ads or any other type of annoyance. &#10; &#10;
+                <Label Text="We are a couple who built GameSpur to keep fellow gamers like us up to date on the latest gaming news and deals in one ad-free app.
 
-As the app is open-source, the app evolve using
-its community's skills, knowledges and opinions.  "
+GameSpur is our open-source passion project. We always welcome feedback and contributions from our community as we continue to grow. "
                    Grid.Row="4"
                    Style="{StaticResource ParagraphStyle}"/>
             
             <!-- Profit -->
-            <Label Text="How is it profitable?"
+                <Label Text="How We Make Money"
                    Grid.Row="5"
                    Style="{StaticResource TitleStyle}" />
             <BoxView Grid.Row="6"
                      Style="{StaticResource SeparatorStyle}"/>
-                <Label Text="It's not. &#x0a; We don't really have a business model per se. Our affiliate partners (see bellow) allows to pay for development and expenses, and we are grateful for that. &#x0a; It's a passion project first and foremost, we would love to make a living out of it one day, but as it stands it isn't realistic. "
+                <Label Text="GameSpur is completely ad-free, and we want to keep it that way.
+
+We partner with a handful of gaming retailers through affiliate programmes. We may earn a small commission when you purchase a game or bundle through My Deals at no extra cost to you.
+These commissions help us to maintain and improve our app while letting you enjoy a cool new game and pitch in to support us, which we really appreciate!"
                    Grid.Row="7"
                    Style="{StaticResource ParagraphStyle}"/>
             
@@ -205,7 +205,7 @@ its community's skills, knowledges and opinions.  "
                       HorizontalOptions="Center"
                       RowDefinitions="*,*">
 
-                    <Button Text="Support: support@gamhub.io"
+                    <Button Text="Support: support@gamespur.games"
                             Grid.Row="0"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"
@@ -216,9 +216,9 @@ its community's skills, knowledges and opinions.  "
                             HeightRequest="30"
                             FontFamily="P-Bold"
                             Command="{Binding MailTo}"
-                            CommandParameter="support@gamhub.io"/>
+                            CommandParameter="support@gamespur.games"/>
 
-                    <Button Text="General: contact@gamhub.io"
+                    <Button Text="General: contact@gamespur.games"
                             BackgroundColor="{StaticResource LightDark}"
                             TextColor="{StaticResource FontColor}"
                             HorizontalOptions="Center"
@@ -228,90 +228,144 @@ its community's skills, knowledges and opinions.  "
                             HeightRequest="30"
                             FontFamily="P-Bold"
                             Command="{Binding MailTo}"
-                            CommandParameter="contact@gamhub.io"
+                            CommandParameter="contact@gamespur.games"
                             Grid.Row="1"/>
                 </Grid>
 
             <!-- Creator -->
-            <Label Text="Founder"
+            <Label Text="Founders"
                    Grid.Row="11"
                    Style="{StaticResource TitleStyle}" 
                    />
 
             <BoxView Grid.Row="12"
                      Style="{StaticResource SeparatorStyle}"/>
+                <ScrollView Grid.Row="13"
+                            Orientation="Horizontal">
+                    <StackLayout Orientation="Horizontal"
+                                 Spacing="5">
+                    <!-- Card creator -->
+                    <Border Grid.Row="13"
+                            BackgroundColor="{StaticResource LightDark}"
+                            StrokeShape="RoundRectangle 15"
+                            WidthRequest="220"
+                            HeightRequest="108"
+                            Margin="0,20"
+                            HorizontalOptions="Center"
+                            Padding="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Profile pic -->
+                            <mct:AvatarView Grid.Column="0" 
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"
+                                 BackgroundColor="{DynamicResource Dark}"
+                                 TextColor="{DynamicResource Dark}"
+                                 Text=""
+                                 StrokeThickness="0"
+                                 HeightRequest="70"
+                                 WidthRequest="70"
+                                 ImageSource="https://avatars.githubusercontent.com/u/37577669?v=4" />
+
+                            <Grid Grid.Column="1"
+                                  Margin="0,20,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Name -->
+                                <Label Text="Brice Friha"
+                                        FontSize="18"
+                                        Grid.Row="0"
+                                        FontFamily="P-Bold"
+                                        TextColor="{StaticResource FontColor}"
+                                        VerticalOptions="Center"/>
+
+                                <!-- Twitter -->
+                                <StackLayout Orientation="Horizontal"
+                                              Grid.Row="1"
+                                              Spacing="5">
+                                    <!-- Twitter logo -->
+                                    <Label Text="&#xe61a;"
+                                            FontSize="15"
+                                            FontFamily="FaBrand"
+                                            TextColor="#e4e5e7"
+                                            VerticalOptions="Center"/>
+
+                                    <!-- Name -->
+                                    <Label Text="@BriceFriha"
+                                            FontSize="14"
+                                            FontFamily="P-Bold"
+                                            VerticalOptions="Center"
+                                             x:Name="BriceTwitterBtn"
+                                            TextColor="{StaticResource FontColor}">
+                                        <Label.Behaviors>
+                                            <mct:TouchBehavior CommandParameter="bricefriha"
+                                            BindingContext="{Binding Source={x:Reference thy},Path=BindingContext, x:DataType=ContentPage}"
+                                            Command="{Binding ViewTwitter}"/>
+                                        </Label.Behaviors>
+                                    </Label>
+                                </StackLayout>
+                            </Grid>
+
+                        </Grid>
+                    </Border>
+                    <!-- Card creator -->
+                    <Border Grid.Row="13"
+                            BackgroundColor="{StaticResource LightDark}"
+                            StrokeShape="RoundRectangle 15"
+                            WidthRequest="220"
+                            HeightRequest="108"
+                            Margin="0,20"
+                            HorizontalOptions="Center"
+                            Padding="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Profile pic -->
+                            <mct:AvatarView Grid.Column="0" 
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center"
+                                             BackgroundColor="{DynamicResource Dark}"
+                                             TextColor="{DynamicResource Dark}"
+                                             Text=""
+                                             StrokeThickness="0"
+                                             HeightRequest="70"
+                                             WidthRequest="70"
+                                             ImageSource="https://avatars.githubusercontent.com/u/122379473?v=4" />
+
+                            <Grid Grid.Column="1"
+                                    Margin="0,20,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Name -->
+                                <Label Text="Emma Boyle"
+                                        FontSize="18"
+                                        Grid.Row="0"
+                                        FontFamily="P-Bold"
+                                        TextColor="{StaticResource FontColor}"
+                                            VerticalOptions="Center"/>
+                            </Grid>
+
+                        </Grid>
+                    </Border>
+
+                </StackLayout>
+                </ScrollView>
+                
             
-            <!-- Card creator -->
-            <Border Grid.Row="13"
-                   BackgroundColor="{StaticResource LightDark}"
-                   StrokeShape="RoundRectangle 15"
-                   WidthRequest="265"
-                   HeightRequest="108"
-                   Margin="0,20"
-                   HorizontalOptions="Center"
-                   Padding="0">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <!-- Profile pic -->
-                    <mct:AvatarView Grid.Column="0" 
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="Center"
-                                    BackgroundColor="{DynamicResource Dark}"
-                                    TextColor="{DynamicResource Dark}"
-                                    Text=""
-                                    StrokeThickness="0"
-                                    HeightRequest="70"
-                                    WidthRequest="70"
-                                    ImageSource="https://avatars.githubusercontent.com/u/37577669?v=4" />
-
-                    <Grid Grid.Column="1"
-                          Margin="0,20,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-                        
-                        <!-- Name -->
-                        <Label Text="Brice Friha"
-                               FontSize="18"
-                               Grid.Row="0"
-                               FontFamily="P-Bold"
-                               TextColor="{StaticResource FontColor}"
-                               VerticalOptions="Center"/>
-
-                        <!-- Twitter -->
-                        <StackLayout Orientation="Horizontal"
-                                     Grid.Row="1"
-                                     Spacing="5">
-                            <!-- Twitter logo -->
-                            <Label Text="&#xe61a;"
-                                   FontSize="15"
-                                   FontFamily="FaBrand"
-                                   TextColor="#e4e5e7"
-                                   VerticalOptions="Center"/>
-                            
-                            <!-- Name -->
-                            <Label Text="@BriceFriha"
-                                   FontSize="14"
-                                   FontFamily="P-Bold"
-                                   VerticalOptions="Center"
-                                    x:Name="BriceTwitterBtn"
-                                   TextColor="{StaticResource FontColor}">
-                                <Label.Behaviors>
-                                    <mct:TouchBehavior CommandParameter="bricefriha"
-                                                       BindingContext="{Binding Source={x:Reference thy},Path=BindingContext, x:DataType=ContentPage}"
-                                                       Command="{Binding ViewTwitter}"/>
-                                </Label.Behaviors>
-                            </Label>
-                        </StackLayout>
-                    </Grid>
-                    
-                </Grid>
-            </Border>
+           
 
             <!-- Partners -->
             <Label Text="Partners"
@@ -338,7 +392,7 @@ its community's skills, knowledges and opinions.  "
             </StackLayout>
             
             
-                <Label Text="© 2025 Brice Friha"
+                <Label Text="© 2026 GameSpur"
                        FontSize="12"
                        Grid.Row="17"
                        FontFamily="P-regular"

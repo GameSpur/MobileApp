@@ -37,7 +37,7 @@ public static class MauiProgram
             options.Dsn = "";
 #else 
             // The DSN is the only required setting.
-            options.Dsn = "https://85f9253e991b75cbe8aa958deddcc433@o4508635363278848.ingest.de.sentry.io/4511365353177168";
+            options.Dsn = "https://97c1a76679b7f318e7a8b041622ebb5f@o4511854137966592.ingest.de.sentry.io/4511854157824080";
 #endif
 
 #if DEBUG
@@ -89,6 +89,7 @@ builder.Services.AddCustard(host: AppConstant.Localhost,
         builder.Services.AddSingleton<Fetcher>();
 
         builder.Services.AddSingleton<CommunityToolkit.Maui.Behaviors.TouchBehavior>();
+        builder.Services.AddSingleton<SourceService>();
         builder.Services.AddRevenueCatBilling(true);
         return builder.Build();
     }
