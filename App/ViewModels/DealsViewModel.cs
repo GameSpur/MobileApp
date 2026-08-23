@@ -40,6 +40,21 @@ public class DealsViewModel : BaseViewModel
         }
     }
 
+    private ObservableRangeCollection<Deal> _popularDeals = new();
+
+    public ObservableRangeCollection<Deal> PopularDeals
+    {
+        get
+        {
+            return _popularDeals;
+        }
+        set
+        {
+            _popularDeals = value;
+            OnPropertyChanged(nameof(PopularDeals));
+        }
+    }
+
     private bool _filtersApplied = false;
     public bool FiltersApplied
     {
@@ -178,42 +193,10 @@ public class DealsViewModel : BaseViewModel
 
             var getTendingTask = CurrentApp.DataFetcher.GetTrendingDeals();
             var getDealTask = CurrentApp.DataFetcher.GetDeals();
+            await Task.WhenAll(getTendingTask, getDealTask);
 
-            await foreach (var task in Task.WhenEach(getTendingTask,
-                getDealTask)) 
-            {
-
-                await MainThread.InvokeOnMainThreadAsync(() =>
-                {
-                    if (task == getTendingTask ) 
-                    {
-                        var res = getTendingTask.Result
-                                    .Where(d => d != null)
-                                    .OrderBy(d => d?.Expires).ToList();
-                        if (Deals.Count > 0)
-                        {
-                            var tendingDeals = new ObservableRangeCollection<Deal>(res);
-                            for (int i = 0; i < tendingDeals.Count; i++)
-                            {
-
-                                Deals.Insert(i, tendingDeals[i]);
-                            }
-
-                        }
-                        else
-                        {
-                            Deals.AddRange(new ObservableRangeCollection<Deal>(res));
-                        }
-                    }
-                    if (task == getDealTask)
-                    {
-                        var res = getDealTask.Result;
-                        if (res != null)
-                            Deals.AddRange(new ObservableRangeCollection<Deal>(getDealTask.Result.OrderBy(d => d.Expires)));
-                    }
-
-                });
-            }
+            Deals = new (getDealTask?.Result);
+            PopularDeals = new (getTendingTask?.Result);
 
             IsLoading = false;
             _setup = true;

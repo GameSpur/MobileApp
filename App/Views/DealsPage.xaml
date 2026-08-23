@@ -6,8 +6,8 @@
              xmlns:models="clr-namespace:GamHubApp.Models"
              xmlns:local="clr-namespace:GamHubApp.Models.Animations"
              xmlns:viewmodels="clr-namespace:GamHubApp.ViewModels"
+             xmlns:ctrl="clr-namespace:GamHubApp.Controls"
              x:DataType="viewmodels:DealsViewModel"
-             xmlns:stroked="https://vapolia.eu/Vapolia.StrokedLabel"
              Shell.ForegroundColor="{DynamicResource PrimaryAccent}"
              Shell.BackgroundColor="{DynamicResource LightDark}"
              x:Name="page">
@@ -61,9 +61,44 @@
                     Margin="1,0"
                     >
                     <CollectionView.Header>
-                        <Grid>
+                        <Grid RowDefinitions="50,300,40,*">
+                            <BoxView Grid.Row="0"
+                                     Grid.RowSpan="2"
+                                     BackgroundColor="{StaticResource LightDark}"
+                                     Opacity="0.8"/>
+
+                               <Label Text="🔥 Popular"
+                                       Grid.Row="0"
+                                       VerticalOptions="Center"
+                                       FontFamily="P-Medium"
+                                       Margin="8,8,8,0"
+                                       TextColor="{StaticResource FontColor}"
+                                       FontSize="18"
+                                       />
+                                <CollectionView Grid.Row="1"
+                                            ItemsSource="{Binding PopularDeals}"
+                                            ItemsLayout="HorizontalList"
+                                            >
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Deal">
+                                        <ctrl:DealPreview Deal="{Binding .}"
+                                                         WidthRequest="350"
+                                                         Margin="20,5,0,15"/>
+                                    </DataTemplate>
+
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            <Label Text="♾️ All"
+                                       Grid.Row="2"
+                                     VerticalOptions="Center"
+                                     FontFamily="P-Medium"
+                                     Margin="8,8,8,0"
+                                     TextColor="{StaticResource FontColor}"
+                                     FontSize="18"
+                                     />
                             <SearchBar Placeholder="Search deals..."
                                        x:Name="search"
+                                       Grid.Row="3"
                                        TextChanged="search_TextChanged"
                                        IsTextPredictionEnabled="false"
                                        IsSpellCheckEnabled="False"
@@ -135,185 +170,6 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Deal">
                             <ctrl:DealPreview Deal="{Binding .}"/>
-                              x:Name="DealBlock"
-                              Padding="10">
-                                <Border Grid.Row="0"
-                                    StrokeShape="RoundRectangle 8"
-                                    x:Name="thumbnail">
-                                    <Image Source="{Binding Image}"
-                                       HorizontalOptions="Fill"
-                                       VerticalOptions="Fill"
-                                       Aspect="Fill"/>
-
-                                    <Border.Behaviors>
-                                        <mct:TouchBehavior Command="{Binding Navigate}"
-                                                   BindingContext="{Binding BindingContext, 
-                                                                            Source={x:Reference thumbnail},
-                                                                            x:DataType=Border}"/>
-                                    </Border.Behaviors>
-                                </Border>
-
-                                <Border Grid.Row="0"
-                                    IsVisible="{Binding EpirationDisplayed}"
-                                    StrokeShape="RoundRectangle 10"
-                                    HorizontalOptions="Start"
-                                    VerticalOptions="Start"
-                                    HeightRequest="30"
-                                    BackgroundColor="{StaticResource BackgroundColor}"
-                                    StrokeThickness="1"
-                                    Stroke="{Binding Expires, Converter={StaticResource TimeUntilColourConverter}}"
-                                    Margin="2,5"
-                                    Padding="5,2"
-                                    x:Name="timestampCard">
-                                    <Label TextColor="{StaticResource FontColor}"
-                                       VerticalTextAlignment="Center">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span FontFamily="P-Medium" Text="Ends in "/>
-                                                <Span FontFamily="P-Bold" 
-                                                  Text="{Binding Expires, Converter={StaticResource TimeUntilConverter}}"
-                                                  TextColor="{Binding Expires, Converter={StaticResource TimeUntilColourConverter}}"/>
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Border.Behaviors>
-                                        <mct:TouchBehavior Command="{Binding Navigate}"
-                                                        BindingContext="{Binding BindingContext, 
-                                                                                 Source={x:Reference timestampCard},
-                                                                                 x:DataType=Border}"/>
-                                    </Border.Behaviors>
-                                </Border>
-                                <Label Grid.Row="1"
-                                   HorizontalOptions="Center"
-                                   HorizontalTextAlignment="Center"
-                                   Text="{Binding Title}"
-                                   TextColor="{StaticResource FontColor}"
-                                   FontFamily="P-Bold"
-                                   x:Name="label"
-                                   FontSize="20">
-                                    <Label.Behaviors>
-                                        <mct:TouchBehavior Command="{Binding Navigate}"
-                                                       BindingContext="{Binding BindingContext, 
-                                                                                Source={x:Reference label},
-                                                                                x:DataType=Label}"/>
-
-                                    </Label.Behaviors>
-                                </Label>
-                                <Grid RowDefinitions="*,30,40"
-                                  Grid.Row="0"
-                                  RowSpacing="5">
-                                    <Border Grid.Row="1"
-                                        StrokeShape="RoundRectangle 8"
-                                        HorizontalOptions="Start"
-                                        VerticalOptions="End"
-                                        HeightRequest="30"
-                                        Margin="5,0"
-                                        Stroke="{DynamicResource BackgroundColor}"
-                                        StrokeThickness="2"
-                                        IsVisible="{Binding GemRewards, Converter={StaticResource NotNullOrEmptyStringConverter}}"
-                                        BackgroundColor="{StaticResource Dark}">
-
-                                        <Border.Behaviors>
-                                            <mct:TouchBehavior Command="{Binding Navigate}"
-                                                   BindingContext="{Binding BindingContext, 
-                                                                            Source={x:Reference discountCard},
-                                                                            x:DataType=Border}"/>
-                                        </Border.Behaviors>
-                                        <Label Margin="5"
-                                            FontSize="15"
-                                           Padding="0"
-                                            HorizontalOptions="End"
-                                           VerticalOptions="Center">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Earn"
-                                                      FontFamily="P-Regular"
-                                                      TextColor="{DynamicResource FontColor}"/>
-                                                    <Span Text=" "/>
-                                                    <Span 
-                                                        Text="&#xf3a5;" 
-                                                        FontFamily="FaSolid"
-                                                        TextColor="{DynamicResource DiscountColor}"/>
-                                                    <Span Text=" "/>
-                                                    <Span Text="{Binding GemRewards}"
-                                                      FontFamily="P-Bold"
-                                                      TextColor="{DynamicResource FontColor}"/>
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                    </Border>
-                                    <Border Grid.Row="2"
-                                    StrokeShape="RoundRectangle 0,20,8,0"
-                                    HorizontalOptions="Start"
-                                    VerticalOptions="End"
-                                    HeightRequest="40"
-                                    WidthRequest="100"
-                                    x:Name="discountCard"
-                                    IsVisible="{Binding Discount, Converter={StaticResource NotNullOrEmptyStringConverter}}"
-                                    BackgroundColor="{StaticResource DiscountColor}">
-
-                                        <Border.Behaviors>
-                                            <mct:TouchBehavior Command="{Binding Navigate}"
-                                                   BindingContext="{Binding BindingContext, 
-                                                                            Source={x:Reference discountCard},
-                                                                            x:DataType=Border}"/>
-                                        </Border.Behaviors>
-                                        <Label 
-                                       Text="{Binding Discount}"
-                                       TextColor="{StaticResource FontColor}"
-                                       FontFamily="P-Bold"
-                                       stroked:StrokedLabel.StrokeColor="{StaticResource Dark}"
-                                       stroked:StrokedLabel.StrokeWidth="2"
-                                       HorizontalOptions="Center"
-                                       VerticalOptions="Center"
-                                       FontSize="20"
-                                       />
-                                    </Border>
-
-                                </Grid>
-                                <Grid Grid.Row="0"
-                                  RowDefinitions="50,*">
-                                    <Border Grid.Row="0"
-                                        StrokeShape="RoundRectangle 0,8,20,0"
-                                        HorizontalOptions="End"
-                                        VerticalOptions="Start"
-                                        HeightRequest="50"
-                                        WidthRequest="100"
-                                        x:Name="partner"
-                                        BackgroundColor="White">
-                                        <Image Source="{Binding Partner.Logo}"
-                                           HorizontalOptions="Fill"
-                                           VerticalOptions="Fill"/>
-                                    </Border>
-                                    <Button Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    BackgroundColor="Transparent"
-                                    Command="{Binding Navigate}"/>
-
-                                    <!-- Share button-->
-                                    <Border Grid.Row="1"
-                                        Style="{StaticResource ButtonBorder}" 
-                                        WidthRequest="60"
-                                        StrokeShape="RoundRectangle 20,0,0,8"
-                                        VerticalOptions="End"
-                                        HorizontalOptions="End"
-                                        Margin="0"
-                                        x:Name="share"
-                                        BackgroundColor="{StaticResource BackgroundColor}">
-                                        <Border.Behaviors>
-                                            <mct:TouchBehavior Command="{Binding ShareDeal}"
-                                                           BindingContext="{Binding BindingContext, 
-                                                                             Source={x:Reference share}, 
-                                                                             x:DataType=Border}"/>
-                                        </Border.Behaviors>
-                                        <Label Style="{StaticResource LabelButtonStyle}"
-                                           TextColor="{StaticResource VeryLightDark }"
-                                           Text="&#xf14d;"
-                                       />
-                                    </Border>
-
-                                </Grid>
-                            </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
