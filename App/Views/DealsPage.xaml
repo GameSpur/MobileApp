@@ -134,7 +134,7 @@
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Deal">
-                            <Grid RowDefinitions="220,50"
+                            <ctrl:DealPreview Deal="{Binding .}"/>
                               x:Name="DealBlock"
                               Padding="10">
                                 <Border Grid.Row="0"
