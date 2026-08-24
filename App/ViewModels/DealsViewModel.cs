@@ -156,16 +156,27 @@ public class DealsViewModel : BaseViewModel
 
     }
 
+    /// <summary>
+    /// Reset the search to what it was initially
+    /// </summary>
+    public void ResetSearch()
+    {
+        Deals = _presearchDeals;
+    }
+
+    /// <summary>
+    /// Process a search
+    /// </summary>
+    /// <param name="textSearch">input of the search</param>
     public void DealsSearch(string textSearch)
     {
         if (string.IsNullOrEmpty(textSearch))
         {
-
-            Deals = _presearchDeals;
+            ResetSearch();
             return;
         }
 
-        var filteredDeals = _presearchDeals.Where(deal => deal.Title.ToLower().Contains(textSearch.ToLower()))?.ToList();
+        var filteredDeals = _presearchDeals.Where(deal => deal?.Title?.ToLower().Contains(textSearch.ToLower()) ?? false)?.ToList();
 
         if (filteredDeals is null)
         {
@@ -188,6 +199,7 @@ public class DealsViewModel : BaseViewModel
                 IsLoading = false;
                 FiltersApplied = true;
                 _setup = true;
+                _presearchDeals = _deals;
                 return;
             }
 

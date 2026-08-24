@@ -115,6 +115,7 @@
                                        IsTextPredictionEnabled="false"
                                        IsSpellCheckEnabled="False"
                                        SearchButtonPressed="search_SearchButtonPressed"
+                                       TextChanged="search_TextChanged"
                                        />
                         </Grid>
                     </CollectionView.Header>

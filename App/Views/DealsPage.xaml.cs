@@ -45,6 +45,16 @@ public partial class DealsPage : ContentPage
     {
         _vm.DealsSearch(search.Text);
         search.Unfocus();
+        Dispatcher.Dispatch(async () => 
+            await search.HideSoftInputAsync(System.Threading.CancellationToken.None));
 
+    }
+
+    private void search_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (string.IsNullOrEmpty(search.Text))
+        {
+            _vm.ResetSearch();
+        }
     }
 }
