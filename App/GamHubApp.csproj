@@ -140,6 +140,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <MauiXaml Update="Controls\DealPreview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Resources\Styles\Colors.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
