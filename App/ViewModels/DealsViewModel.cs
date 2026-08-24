@@ -191,23 +191,25 @@ public class DealsViewModel : BaseViewModel
     {
         if (!(Deals?.Count > 0))
         {
-            if (Preferences.Get(PreferencesKeys.DealFilterCode, null) != null)
+            string filterCode = Preferences.Get(PreferencesKeys.DealFilterCode, null);
+
+            var getTendingTask = CurrentApp.DataFetcher.GetTrendingDeals();
+            var getDealTask = CurrentApp.DataFetcher.GetDeals(filterCode);
+            await Task.WhenAll(getTendingTask, getDealTask);
+            if (filterCode != null)
             {
-                Deals.AddRange(new ObservableRangeCollection<Deal>(
-                    (await CurrentApp.DataFetcher.GetDeals())
-                    .OrderBy(d => d.Expires)));
+
+                Deals = new(getDealTask?.Result?.OrderBy(d => d.Expires));
                 IsLoading = false;
                 FiltersApplied = true;
                 _setup = true;
+                PopularDeals = new((getTendingTask?.Result?.Where(dt => filterCode.Contains(dt.DRM))));
                 _presearchDeals = _deals;
                 return;
             }
 
-            var getTendingTask = CurrentApp.DataFetcher.GetTrendingDeals();
-            var getDealTask = CurrentApp.DataFetcher.GetDeals();
-            await Task.WhenAll(getTendingTask, getDealTask);
 
-            Deals = new (getDealTask?.Result);
+            Deals = new (getDealTask?.Result?.OrderBy(d=> d.Expires));
             PopularDeals = new (getTendingTask?.Result);
 
             IsLoading = false;

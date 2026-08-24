@@ -536,14 +536,14 @@ public class Fetcher
     /// Get all the deals
     /// </summary>
     /// <returns>all the deals</returns>
-    public async Task<Collection<Deal>> GetDeals()
+    public async Task<Collection<Deal>> GetDeals(string filterCode = null)
     {
         if (!Fetcher.CheckFeasability())
             return [];
         ResetHandler();
         try
         {
-            string filterCode = Preferences.Get(PreferencesKeys.DealFilterCode, null);
+            filterCode ??= Preferences.Get(PreferencesKeys.DealFilterCode, null);
 
             using var cts = new CancellationTokenSource();
             cts.CancelAfter(TimeSpan.FromSeconds(5));
