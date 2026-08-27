@@ -823,6 +823,7 @@ public class NewsViewModel : BaseViewModel
             else
                 RefreshFeed.Execute(_isSearching);
 #endif
+            Sources = await _generalDB.GetSources();
         }
         Sources = await _generalDB.GetSources();
         
