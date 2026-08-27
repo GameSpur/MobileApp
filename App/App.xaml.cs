@@ -39,7 +39,7 @@ public partial class App : Application
     public User SaveInfo { get; private set; }
     public Collection<Partner> Partners { get; private set; }
     public Collection<Deal> Deals { get; private set; }
-    public string InstanceID { get; set; }
+
     /// <summary>
     /// Date first registered to determin when is the best time to ask for user review
     /// </summary>
@@ -141,7 +141,6 @@ public partial class App : Application
 
     protected override void OnStart()
     {
-        SetupInstance().GetAwaiter();
 
         Task.Run(RecoverFromOffline);
 
@@ -316,39 +315,6 @@ public partial class App : Application
             actionButtonText: "contact support").Show();
     }
 
-    /// <summary>
-    /// Setup the instance for a device
-    /// </summary>
-    /// <returns>a task returning the id of the instance</returns>
-    public async Task<string> SetupInstance()
-    {
-
-#if IOS
-        string instanceID = await SecureStorage.Default.GetAsync(AppConstant.InstanceIdKey);
-        if (string.IsNullOrEmpty(instanceID))
-        {
-            await SecureStorage.Default.SetAsync(AppConstant.InstanceIdKey, instanceID = UIKit.UIDevice.CurrentDevice.IdentifierForVendor.ToString().ToLower().Replace("-", string.Empty).Substring(0,30));
-
-        }
-
-#if DEBUG
-        Debug.WriteLine($"Instance: {instanceID}");
-#endif
-        return
-#endif
-        InstanceID =
-#if ANDROID
-            Secure.GetString(Android.App.Application.Context.ContentResolver, Secure.AndroidId);
-#if DEBUG
-        Debug.WriteLine($"Instance: {InstanceID}");
-#endif
-        await SecureStorage.Default.SetAsync(AppConstant.InstanceIdKey, InstanceID);
-        return InstanceID;
-#elif IOS
-            instanceID;
-#endif
-
-    }
     /// <summary>
     /// Load all the partners
     /// </summary>
