@@ -75,12 +75,19 @@ public class Fetcher
         _generalDB = generalDataBase;
         _backupDB = backUpDataBase;
         _firebasePushPermissions = notificationPermissions;
+    }
 
-        Task.WhenAll([
+    /// <summary>
+    /// Initialised all the data needed to move forward
+    /// </summary>
+    /// <returns></returns>
+    public async Task DataInit()
+    {
+        await Task.WhenAll([
             GetSources(),
             SetCultureInfo(),
             GetDRMs()
-            ]).GetAwaiter();
+                    ]);
     }
 
     /// <summary>
