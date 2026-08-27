@@ -335,7 +335,7 @@ public class NewsViewModel : BaseViewModel
     }
     public bool IsLoadingChunks { get; private set; }
 
-    private List<Source> _sources;
+    private List<Source> _sources = [];
 
     public List<Source> Sources
     {
@@ -797,8 +797,8 @@ public class NewsViewModel : BaseViewModel
             else
                 RefreshFeed.Execute(_isSearching);
 #endif
-            Sources = await _generalDB.GetSources();
         }
+        Sources = await _generalDB.GetSources();
         
         await FetchTrendingArticles();
 
