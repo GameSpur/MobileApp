@@ -8,6 +8,9 @@ using System.Collections.ObjectModel;
 using Plugin.FirebasePushNotifications;
 using System.Net.Sockets;
 
+#if ANDROID
+using static Android.Provider.Settings;
+#endif
 
 #if IOS
 using Maui.RevenueCat.InAppBilling.Services;
@@ -23,6 +26,8 @@ public class Fetcher
     public static string ProdHost { get; } = "api.gamhub.io";
     private static string _dateFormat = "dd-MM-yyy_HH:mm:ss";
     private Session CurrentSession { get; set; }
+
+    public string InstanceID { get; set; }
     public Service WebService { get; private set; }
     public static Collection<Source> Sources { get; set; }
 
@@ -70,12 +75,19 @@ public class Fetcher
         _generalDB = generalDataBase;
         _backupDB = backUpDataBase;
         _firebasePushPermissions = notificationPermissions;
+    }
 
-        Task.WhenAll([
+    /// <summary>
+    /// Initialised all the data needed to move forward
+    /// </summary>
+    /// <returns></returns>
+    public async Task DataInit()
+    {
+        await Task.WhenAll([
             GetSources(),
             SetCultureInfo(),
             GetDRMs()
-            ]).GetAwaiter();
+                    ]);
     }
 
     /// <summary>
@@ -536,14 +548,14 @@ public class Fetcher
     /// Get all the deals
     /// </summary>
     /// <returns>all the deals</returns>
-    public async Task<Collection<Deal>> GetDeals()
+    public async Task<Collection<Deal>> GetDeals(string filterCode = null)
     {
         if (!Fetcher.CheckFeasability())
             return [];
         ResetHandler();
         try
         {
-            string filterCode = Preferences.Get(PreferencesKeys.DealFilterCode, null);
+            filterCode ??= Preferences.Get(PreferencesKeys.DealFilterCode, null);
 
             using var cts = new CancellationTokenSource();
             cts.CancelAfter(TimeSpan.FromSeconds(5));
@@ -1062,7 +1074,7 @@ public class Fetcher
             if (string.IsNullOrEmpty(instanceID))
             {
                 // Reissue an instanceID
-                instanceID = await (App.Current as App).SetupInstance();
+                instanceID = await SetupInstance();
             }
     #if DEBUG
             Debug.WriteLine($"ApiKey: {apiKey}");
@@ -1087,6 +1099,40 @@ public class Fetcher
     }
 
     /// <summary>
+    /// Setup the instance for a device
+    /// </summary>
+    /// <returns>a task returning the id of the instance</returns>
+    public async Task<string> SetupInstance()
+    {
+
+#if IOS
+        string instanceID = await SecureStorage.Default.GetAsync(AppConstant.InstanceIdKey);
+        if (string.IsNullOrEmpty(instanceID))
+        {
+            await SecureStorage.Default.SetAsync(AppConstant.InstanceIdKey, instanceID = UIKit.UIDevice.CurrentDevice.IdentifierForVendor.ToString().ToLower().Replace("-", string.Empty).Substring(0,30));
+
+        }
+
+#if DEBUG
+        Debug.WriteLine($"Instance: {instanceID}");
+#endif
+        return
+#endif
+        InstanceID =
+#if ANDROID
+            Secure.GetString(Android.App.Application.Context.ContentResolver, Secure.AndroidId);
+#if DEBUG
+        Debug.WriteLine($"Instance: {InstanceID}");
+#endif
+        await SecureStorage.Default.SetAsync(AppConstant.InstanceIdKey, InstanceID);
+        return InstanceID;
+#elif IOS
+            instanceID;
+#endif
+    }
+
+
+        /// <summary>
     /// Adding a hook to an article
     /// </summary>
     /// <param name="article">article hooked</param>

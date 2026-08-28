@@ -156,6 +156,7 @@ public class AppShellViewModel : BaseViewModel
         Task.Run(async () =>
         {
             await Task.WhenAll(
+                dataFetcher.DataInit(),
                 Task.Run(async () => 
                 { 
                     DonationEnabled = (await fetc.GetGlobalSettings())?.DonationEnabled ?? false; 

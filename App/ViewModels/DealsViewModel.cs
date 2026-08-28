@@ -10,6 +10,7 @@ public class DealsViewModel : BaseViewModel
 {
     public App CurrentApp { get; }
     private ObservableRangeCollection<Deal> _deals = new ();
+    private ObservableRangeCollection<Deal> _presearchDeals;
 
     public ObservableRangeCollection<Deal> Deals
     {
@@ -36,6 +37,21 @@ public class DealsViewModel : BaseViewModel
         {
             _isLoading = value;
             OnPropertyChanged(nameof(IsLoading));
+        }
+    }
+
+    private ObservableRangeCollection<Deal> _popularDeals = new();
+
+    public ObservableRangeCollection<Deal> PopularDeals
+    {
+        get
+        {
+            return _popularDeals;
+        }
+        set
+        {
+            _popularDeals = value;
+            OnPropertyChanged(nameof(PopularDeals));
         }
     }
 
@@ -97,7 +113,7 @@ public class DealsViewModel : BaseViewModel
                 CurrentApp.DataFetcher.AllDeals.Where(deal => 
                 deal?.DRM != null && allowedDrms.Contains(deal.DRM)
                 ).OrderBy(d => d.Expires);
-                Deals = new ObservableRangeCollection<Deal>(
+                _presearchDeals = Deals = new ObservableRangeCollection<Deal>(
                     filtersList);
 
                 FiltersApplied = true;
@@ -140,62 +156,66 @@ public class DealsViewModel : BaseViewModel
 
     }
 
+    /// <summary>
+    /// Reset the search to what it was initially
+    /// </summary>
+    public void ResetSearch()
+    {
+        Deals = _presearchDeals;
+    }
+
+    /// <summary>
+    /// Process a search
+    /// </summary>
+    /// <param name="textSearch">input of the search</param>
+    public void DealsSearch(string textSearch)
+    {
+        if (string.IsNullOrEmpty(textSearch))
+        {
+            ResetSearch();
+            return;
+        }
+
+        var filteredDeals = _presearchDeals.Where(deal => deal?.Title?.ToLower().Contains(textSearch.ToLower()) ?? false)?.ToList();
+
+        if (filteredDeals is null)
+        {
+            Deals = _presearchDeals;
+            return;
+        }
+
+        Deals = new(filteredDeals);
+    }
+
     public async Task UpdateDeals()
     {
         if (!(Deals?.Count > 0))
         {
-            if (Preferences.Get(PreferencesKeys.DealFilterCode, null) != null)
+            string filterCode = Preferences.Get(PreferencesKeys.DealFilterCode, null);
+
+            var getTendingTask = CurrentApp.DataFetcher.GetTrendingDeals();
+            var getDealTask = CurrentApp.DataFetcher.GetDeals(filterCode);
+            await Task.WhenAll(getTendingTask, getDealTask);
+            if (filterCode != null)
             {
-                Deals.AddRange(new ObservableRangeCollection<Deal>(
-                    (await CurrentApp.DataFetcher.GetDeals())
-                    .OrderBy(d => d.Expires)));
+
+                Deals = new(getDealTask?.Result?.OrderBy(d => d.Expires));
                 IsLoading = false;
                 FiltersApplied = true;
                 _setup = true;
+                PopularDeals = new((getTendingTask?.Result?.Where(dt => filterCode.Contains(dt.DRM))));
+                _presearchDeals = _deals;
                 return;
             }
 
-            var getTendingTask = CurrentApp.DataFetcher.GetTrendingDeals();
-            var getDealTask = CurrentApp.DataFetcher.GetDeals();
 
-            await foreach (var task in Task.WhenEach(getTendingTask,
-                getDealTask)) 
-            {
-
-                await MainThread.InvokeOnMainThreadAsync(() =>
-                {
-                    if (task == getTendingTask ) 
-                    {
-                        var res = getTendingTask.Result
-                                    .Where(d => d != null)
-                                    .OrderBy(d => d?.Expires).ToList();
-                        if (Deals.Count > 0)
-                        {
-                            var tendingDeals = new ObservableRangeCollection<Deal>(res);
-                            for (int i = 0; i < tendingDeals.Count; i++)
-                            {
-
-                                Deals.Insert(i, tendingDeals[i]);
-                            }
-
-                        }
-                        else
-                        {
-                            Deals.AddRange(new ObservableRangeCollection<Deal>(res));
-                        }
-                    }
-                    if (task == getDealTask)
-                    {
-                        var res = getDealTask.Result;
-                        if (res != null)
-                            Deals.AddRange(new ObservableRangeCollection<Deal>(getDealTask.Result.OrderBy(d => d.Expires)));
-                    }
-
-                });
-            }
+            Deals = new (getDealTask?.Result?.OrderBy(d=> d.Expires));
+            PopularDeals = new (getTendingTask?.Result);
 
             IsLoading = false;
             _setup = true;
+
+            _presearchDeals = _deals;
             return;
         }
         IsLoading = false;
@@ -220,5 +240,6 @@ public class DealsViewModel : BaseViewModel
             Deals.RemoveAt(i);
         }
 
+        _presearchDeals = _deals;
 }
 }

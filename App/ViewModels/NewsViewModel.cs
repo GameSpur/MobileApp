@@ -189,8 +189,10 @@ public class NewsViewModel : BaseViewModel
     {
         get
         {
-            ObservableRangeCollection<Article> upArticles = new();
+            ObservableRangeCollection<Article> upArticles = [];
             
+            try
+            {
             for (int i = 0; i < _articles?.Count; i++)
             {
                 var article = _articles[i];
@@ -198,6 +200,18 @@ public class NewsViewModel : BaseViewModel
 
                 if (article.Source?.IsSelected ?? true)
                     upArticles.Add(article);
+            }
+
+            }
+
+            catch (Exception ex)
+            {
+#if DEBUG
+                Debug.WriteLine(ex);
+
+#else
+                SentrySdk.CaptureException(ex);
+#endif
             }
             return upArticles;
         }
@@ -212,13 +226,15 @@ public class NewsViewModel : BaseViewModel
             SetProperty(ref _articles, value);
         }
     }
-    private ObservableCollection<Article> _trendingArticles = new();
+    private ObservableCollection<Article> _trendingArticles = [];
 
     public ObservableCollection<Article> TrendingArticles
     {
         get
         {
-            ObservableRangeCollection<Article> upArticles = new();
+            ObservableRangeCollection<Article> upArticles = [];
+            try
+            {
             for (int i = 0; i < _trendingArticles?.Count; i++)
             {
                 var article = _trendingArticles[i];
@@ -229,6 +245,16 @@ public class NewsViewModel : BaseViewModel
 
                 if (article.Source?.IsSelected ?? true)
                     upArticles.Add(article);
+            }
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                Debug.WriteLine(ex);
+
+#else
+                SentrySdk.CaptureException(ex);
+#endif
             }
             return upArticles;
         }
@@ -335,7 +361,7 @@ public class NewsViewModel : BaseViewModel
     }
     public bool IsLoadingChunks { get; private set; }
 
-    private List<Source> _sources;
+    private List<Source> _sources = [];
 
     public List<Source> Sources
     {
@@ -799,6 +825,7 @@ public class NewsViewModel : BaseViewModel
 #endif
             Sources = await _generalDB.GetSources();
         }
+        Sources = await _generalDB.GetSources();
         
         await FetchTrendingArticles();
 
