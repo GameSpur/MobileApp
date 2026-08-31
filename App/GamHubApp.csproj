@@ -20,7 +20,7 @@
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
-
+		
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">35.0</SupportedOSPlatformVersion>
 		<Configurations>Debug;Release;Debug_Localhost</Configurations>
@@ -114,9 +114,9 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Custard" Version="0.4.0.5-rc" />
     <PackageReference Include="Kebechet.Maui.RevenueCat.InAppBilling" Version="7.0.1" />
-    <PackageReference Include="Microsoft.Maui.Controls.Core" Version="10.0.71" />
-    <PackageReference Include="Microsoft.Maui.Core" Version="10.0.71" />
-    <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.71" />
+    <PackageReference Include="Microsoft.Maui.Controls.Core" Version="10.0.100" />
+    <PackageReference Include="Microsoft.Maui.Core" Version="10.0.100" />
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.100" />
     <PackageReference Include="Plugin.FirebasePushNotifications" Version="3.0.28" />
     <PackageReference Include="Plugin.StoreReview" Version="6.2.0" />
     <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
@@ -171,7 +171,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Update="Microsoft.Maui.Controls" Version="10.0.71" />
+    <PackageReference Update="Microsoft.Maui.Controls" Version="10.0.100" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.91" />
