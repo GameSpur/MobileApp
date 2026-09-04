@@ -535,10 +535,16 @@ public class NewsViewModel : BaseViewModel
     /// </summary>
     public async Task FetchTrendingArticles()
     {
-        var newTrandingArticles = await CurrentApp.DataFetcher.GetTrendingArticles();
-        if (_trendingArticles?.Count > 0 && newTrandingArticles.Count <= 0)
+        var newTrendingArticles = new ObservableCollection<Article> (
+            await CurrentApp.DataFetcher.GetTrendingArticles());
+
+        var unListedNewArticles = newTrendingArticles.ExceptBy(
+            _trendingArticles.Select(x => x.MongooseId),
+            (d) => d.MongooseId, StringComparer.InvariantCultureIgnoreCase).ToList();
+
+        if (_trendingArticles?.Count > 0 && unListedNewArticles.Count <= 0)
             return;
-        TrendingArticles = new (newTrandingArticles);
+        TrendingArticles = newTrendingArticles;
     }
 
     /// <summary>
