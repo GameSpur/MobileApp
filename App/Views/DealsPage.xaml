@@ -69,7 +69,7 @@
                                     <DataTrigger TargetType="Grid"
                                                  Binding="{Binding PopularDeals.Count}"
                                                  Value="0">
-                                        <Setter Property="IsVisible" Value="True" />
+                                        <Setter Property="IsVisible" Value="False" />
 
                                     </DataTrigger>
                                 </Grid.Triggers>
