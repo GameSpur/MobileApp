@@ -94,8 +94,8 @@
                                     <DataTemplate x:DataType="models:Deal">
                                         <ctrl:DealPreview Deal="{Binding .}"
                                                           TitleLimit="65"
-                                                         WidthRequest="350"
-                                                         Margin="20,5,0,15"/>
+                                                          WidthRequest="350"
+                                                          Margin="20,5,0,15"/>
                                     </DataTemplate>
 
                                 </CollectionView.ItemTemplate>
