@@ -14,6 +14,20 @@ public partial class DealPreview : ContentView
         set => SetValue(DealProperty, value);
     }
 
+    /// <summary>
+    /// Limit of character to display for the Title
+    /// </summary>
+    public static readonly BindableProperty TitleLimitProperty = BindableProperty.Create(propertyName: nameof(Deal),
+                                                                                       returnType: typeof(int),
+                                                                                       declaringType: typeof(DealPreview),
+                                                                                       defaultBindingMode: BindingMode.OneWay,
+                                                                                       defaultValue: int.MaxValue);
+    public int TitleLimit
+    {
+        get => (int)GetValue(TitleLimitProperty);
+        set => SetValue(TitleLimitProperty, value);
+    }
+
     public DealPreview()
 	{
 		InitializeComponent();

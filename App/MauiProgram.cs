@@ -8,6 +8,7 @@ using Plugin.FirebasePushNotifications.Model.Queues;
 using Maui.RevenueCat.InAppBilling;
 using GamHubApp.Core;
 using CustardApi.Objects;
+using Maui.Nuke;
 
 
 #if IOS
@@ -30,6 +31,7 @@ public static class MauiProgram
         EnvironementSetup.DebugSetup();
 #endif
         builder.UseMauiApp<App>()
+            .UseNuke()
             .UseSentry(options => {
                
 #if DEBUG

@@ -240,7 +240,7 @@
                                     <CollectionView Grid.Row="1"
                                                 ItemsSource="{Binding TrendingArticles}"
                                                 ItemsLayout="HorizontalList"
-                                                >
+                                                HeightRequest="250">
                                         <CollectionView.ItemTemplate>
                                             <DataTemplate x:DataType="models:Article">
                                                 <controls:ArticlePreview Article="{Binding .}"

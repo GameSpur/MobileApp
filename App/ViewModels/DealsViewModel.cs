@@ -3,6 +3,9 @@ using GamHubApp.Models;
 using GamHubApp.Views;
 using MvvmHelpers;
 using System.Collections.ObjectModel;
+#if DEBUG
+using System.Diagnostics;
+#endif
 
 namespace GamHubApp.ViewModels;
 
@@ -170,6 +173,8 @@ public class DealsViewModel : BaseViewModel
     /// <param name="textSearch">input of the search</param>
     public void DealsSearch(string textSearch)
     {
+        try
+        {
         if (string.IsNullOrEmpty(textSearch))
         {
             ResetSearch();
@@ -185,6 +190,17 @@ public class DealsViewModel : BaseViewModel
         }
 
         Deals = new(filteredDeals);
+
+        }
+        catch (Exception ex)
+        {
+#if DEBUG
+            Debug.WriteLine(ex);
+            throw new Exception(ex.Message);
+#else
+            SentrySdk.CaptureException(ex);
+#endif
+        }
     }
 
     public async Task UpdateDeals()

@@ -64,7 +64,7 @@
                HorizontalOptions="Center"
                HorizontalTextAlignment="Center"
                Text="{Binding Deal.Title,
-                              Source={x:Reference preview}}"
+                              Source={x:Reference preview}, Converter={StaticResource MaxLengthConverter}, ConverterParameter={Binding TitleLimit,Source={x:Reference preview}}}"
                TextColor="{StaticResource FontColor}"
                FontFamily="P-Bold"
                x:Name="label"
