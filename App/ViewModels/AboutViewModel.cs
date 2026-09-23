@@ -41,7 +41,7 @@ namespace GamHubApp.ViewModels
             {
                 return new Command<string>(async (url) => await Browser.OpenAsync(url, new BrowserLaunchOptions
                 {
-                    LaunchMode = BrowserLaunchMode.SystemPreferred,
+                    LaunchMode = BrowserLaunchMode.External,
                     TitleMode = BrowserTitleMode.Default,
                 }));
             }
