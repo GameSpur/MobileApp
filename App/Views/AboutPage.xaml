@@ -11,21 +11,14 @@
     <Shell.TitleView>
         <Grid>
             
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="{OnPlatform Android='1.9*', 
-                                                     iOS='2*'}"/>
-
-            </Grid.ColumnDefinitions>
 
             <Label Text="About"
                    Grid.Column="1"
                    FontSize="30"
                    VerticalOptions="Center"
+                   HorizontalOptions="Center"
                    TextColor="{StaticResource FontColor}"
-                   FontFamily="P-Bold"
-                   Margin="{OnPlatform Android='-30,0,40,5', iOS='30,0,40,5'}"/>
+                   FontFamily="P-Bold"/>
         </Grid>
 
     </Shell.TitleView>
