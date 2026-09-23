@@ -167,6 +167,34 @@
                                    VerticalOptions="Center" />
                         </StackLayout>
                     </Border>
+                    <Border StrokeShape="RoundRectangle 12"
+                            Padding="1,5"
+                            BackgroundColor="#e8e8e8"
+                            x:Name="eBayBtn">
+                        <Border.Behaviors>
+                            <mct:TouchBehavior 
+                                            Command="{Binding ViewWeb}"
+                                            BindingContext="{Binding Path=BindingContext, 
+                                                                     Source={x:Reference eBayBtn},
+                                                                     x:DataType=Border}"
+                                            CommandParameter="https://www.ebay.ie/usr/gamespur_retail"
+                                            />
+                        </Border.Behaviors>
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="1">
+                            <Image Source="ebay"
+                                   HorizontalOptions="Center"
+                                   HeightRequest="40"
+                                   />
+                            <Label Text="Get games from us"
+                                   FontSize="12"
+                                   FontFamily="P-SemiBold"
+                                   TextColor="#000000"
+                                   VerticalOptions="Center"
+                                   Margin="5,0"
+                                   HorizontalTextAlignment="Center"/>
+                        </StackLayout>
+                    </Border>
 
                 </StackLayout>
 
