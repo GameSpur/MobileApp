@@ -190,9 +190,9 @@
                                    HorizontalOptions="Center"
                                    HeightRequest="40"
                                    />
-                        <Label Text="Get games from us"
+                        <Label Text="See our game catalogue"
                                    FontSize="12"
-                                   FontFamily="P-Bold"
+                                   FontFamily="P-SemiBold"
                                    TextColor="#000000"
                                    VerticalOptions="Center"
                                    Margin="5,0"
