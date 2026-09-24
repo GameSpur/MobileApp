@@ -35,6 +35,17 @@ namespace GamHubApp.ViewModels
                 }));
             }
         }
+        public Command ViewWeb
+        {
+            get
+            {
+                return new Command<string>(async (url) => await Browser.OpenAsync(url, new BrowserLaunchOptions
+                {
+                    LaunchMode = BrowserLaunchMode.External,
+                    TitleMode = BrowserTitleMode.Default,
+                }));
+            }
+        }
 
         public Command MailTo
         {
