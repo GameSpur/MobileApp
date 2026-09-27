@@ -555,9 +555,13 @@ public class NewsViewModel : BaseViewModel
     {
         if (_articles?.Count < 0)
             return;
+        var lastArticleUploaded = _articles?.FirstOrDefault();
+
+        if (lastArticleUploaded is null)
+            return;
 
         // Get time of the last article in date
-        _lastCallDateTime = _articles?.First().FullPublishDate.ToUniversalTime().ToString("dd-MM-yyy_HH:mm:ss");
+        _lastCallDateTime = lastArticleUploaded.FullPublishDate.ToUniversalTime().ToString("dd-MM-yyy_HH:mm:ss");
 
         // Get all the aricles from this date
         var articles = new ObservableRangeCollection<Article>([.. (await CurrentApp.DataFetcher
