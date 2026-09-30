@@ -555,43 +555,58 @@ public class NewsViewModel : BaseViewModel
     {
         if (_articles?.Count < 0)
             return;
+        try
+        {
+            var lastArticleUploaded = _articles?.FirstOrDefault();
 
-        // Get time of the last article in date
-        _lastCallDateTime = _articles?.First().FullPublishDate.ToUniversalTime().ToString("dd-MM-yyy_HH:mm:ss");
+            if (lastArticleUploaded is null)
+                return;
 
-        // Get all the aricles from this date
-        var articles = new ObservableRangeCollection<Article>([.. (await CurrentApp.DataFetcher
+            // Get time of the last article in date
+            _lastCallDateTime = lastArticleUploaded.FullPublishDate.ToUniversalTime().ToString("dd-MM-yyy_HH:mm:ss");
+
+            // Get all the aricles from this date
+            var articles = new ObservableRangeCollection<Article>([.. (await CurrentApp.DataFetcher
                             .GetMainFeedUpdate(_lastCallDateTime)
                             .ConfigureAwait(false))
                             .Where(article =>
                                 (article.Blocked == null || article.Blocked == false) && article.Source.IsActive)]);
 
-        if (articles.Count == 0)
-            return;
+            if (articles.Count == 0)
+                return;
 
-        if (OnTopScroll)
-        {
-            // Update list of articles
-            UpdateArticles(articles);
-            try
+            if (OnTopScroll)
             {
-                // Manage backup
-                _ = RefreshDB();
+                // Update list of articles
+                UpdateArticles(articles);
+                try
+                {
+                    // Manage backup
+                    _ = RefreshDB();
 
-            }
-            catch (Exception ex)
-            {
+                }
+                catch (Exception ex)
+                {
 #if DEBUG
-                throw new (ex.Message);
+                    throw new(ex.Message);
 #else
                 SentrySdk.CaptureException(ex);
 #endif
+                }
+
             }
 
+            else
+                UnnoticedArticles = new ObservableCollection<Article>(articles);
         }
-
-        else
-            UnnoticedArticles = new ObservableCollection<Article>(articles);
+        catch (Exception ex)
+        {
+#if DEBUG
+            throw new(ex.Message);
+#else
+            SentrySdk.CaptureException(ex);
+#endif
+        }
 
     }
     /// <summary>
