@@ -104,6 +104,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <AndroidResource Remove="Platforms\Android\Resources\drawable\notification_icon.png" />
+	  <AndroidResource Remove="Platforms\Android\Resources\xml\network_security_config.xml" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiImage Include="Platforms\Android\Resources\drawable\notification_icon.png" />
