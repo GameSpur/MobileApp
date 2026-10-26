@@ -55,7 +55,7 @@ on:
         required: true
 jobs:
   publish-ios:
-    runs-on: macos-27
+    runs-on: xcode-27
     name: iOS Publish
 
     steps:
